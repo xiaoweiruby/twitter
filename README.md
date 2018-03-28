@@ -1,24 +1,14 @@
-# README
+# Let's Build: A Twitter Clone With Ruby on Rails
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+cd workspace
+rails new twitter
+cd tiwwter
+git init
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/shenzhoudance/twitter.git
+git push -u origin master
+rails s
+```
+![image](https://ws3.sinaimg.cn/large/006tNc79gy1fpsnyw9fzwj313m0z01kx.jpg)
