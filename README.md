@@ -46,6 +46,7 @@ gem 'guard-livereload', '~> 2.5', '>= 2.5.2', require: false
 ---
 bundle install
 guard init livereload
+bundle exec guard
 ```
 ![image](https://ws4.sinaimg.cn/large/006tNc79gy1fpsokdabp5j31kw0tfdns.jpg)
 ```
@@ -67,10 +68,85 @@ app/assets/stylesheets/application.scss
 ```
 rails generate simple_form:install
 rails generate devise:install
+rails generate devise:views
 ---
 ```
 ![image](https://ws4.sinaimg.cn/large/006tNc79gy1fpsotw13iij31kw0hoteo.jpg)
-
-
+```
+git status
 git add .
 git commit -m "add gems"
+git push origin gem
+```
+
+```
+git checkout -b nav
+app/views/layouts/application.html.erb
+---
+<body>
+  <% if flash[:notice] %>
+  <div class="notification is-primary global-notification">
+    <p class="notice"><%= notice %></p>
+  </div>
+  <% end %>
+  <% if flash[:alert] %>
+  <div class="notification is-danger global-notification">
+    <p class="alert"><%= alert %></p>
+  </div>
+  <% end %>
+<nav class="navbar is-info">
+<div class="navbar-brand">
+  <%= link_to root_path, class:"navbar-item" do %>
+    <h1 class="title is-5">Twittter</h1>
+  <% end  %>
+  <div class="navbar-burger burger" data-target="navbarExample">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<div id="navbarExample" class="navbar-menu">
+
+  <div class="navbar-end">
+    <div class="navbar-item">
+      <div class="field is-grouped">
+        <p class="control">
+          <%= link_to 'New Tweeet', new_tweeet_path, class:"button is-info is-inverted" %>
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <%= yield %>
+</body>
+---
+app/assets/stylesheets/application.scss
+---
+.navbar-brand .title {
+	color: white;
+}
+// round images
+.image {
+	border-radius: 50%;
+	img {
+		border-radius: 50%;
+	}
+}
+
+.notification:not(:last-child) {
+	margin-bottom: 0;
+}
+---
+```
+![image](https://ws4.sinaimg.cn/large/006tNbRwgy1fpthyvmsykj30bk09gdgd.jpg)
+![image](https://ws1.sinaimg.cn/large/006tNbRwgy1fpthyq513oj31kw09e75o.jpg)
+![image](https://ws3.sinaimg.cn/large/006tNbRwgy1fpthyk516ij31kw09amyg.jpg)
+```
+git status
+git add .
+git commit -m "add nav"
+git push origin nav
+```
