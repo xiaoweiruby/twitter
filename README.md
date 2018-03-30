@@ -376,3 +376,36 @@ app/views/tweeets/_form.html.erb
 ```
 # 最后效果
 ![image](https://ws1.sinaimg.cn/large/006tKfTcgy1fpunnpd3qdj31kw0s50xk.jpg)
+
+git status
+git add .
+git commit -m "add index feed trends Who & edit form"
+git push origin views
+
+```
+git checkout -b devise
+app/controllers/tweeets_controller.rb
+---
+def create
+  @tweeet = Tweeet.new(tweeet_params)
+
+  respond_to do |format|
+    if @tweeet.save
+      format.html { redirect_to root_path, notice: 'Tweeet was successfully created.' }
+      format.json { render :show, status: :created, location: @tweeet }
+    else
+      format.html { render :new }
+      format.json { render json: @tweeet.errors, status: :unprocessable_entity }
+    end
+  end
+end
+---
+```
+![image](https://ws1.sinaimg.cn/large/006tKfTcgy1fpuvmsn231j31kw0u178l.jpg)
+
+```
+rails g devise User
+rails db:migrate
+git status
+git add .
+git commit -m "add layout and markup devise user model"
