@@ -661,3 +661,111 @@ git status
 git add .
 git commit -m "add devise & layouts"
 git push origin devise
+```
+![image](https://ws3.sinaimg.cn/large/006tKfTcly1fpv05fplhbj31fm0x0wmy.jpg)
+
+```
+git checkout -b username
+---
+app/views/tweeets/_feed.html.erb
+---
+<% if user_signed_in? && current_user.id == tweeet.user_id %>
+       <nav class="level">
+         <div class="level-left is-mobile">
+           <%= link_to tweeet, class: "level-item" do %>
+             <span class="icon"><i class="fa fa-link" aria-hidden="true"></i></span>
+           <% end %>
+           <%= link_to edit_tweeet_path(tweeet), class: "level-item" do %>
+             <span class="icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+           <% end %>
+           <%= link_to tweeet, method: :delete, data: { confirm: "Are you sure you want to delete this tweeet?" } do %>
+               <span class="icon"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+           <% end %>
+         </div>
+       </nav>
+       <% end %>
+---
+```
+![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpv0zrad36j31kw0qktdn.jpg)
+![image](https://ws2.sinaimg.cn/large/006tKfTcgy1fpv0zn24haj31kw0p6n1q.jpg)
+
+```
+<% if user_signed_in? %>
+ <article class="media box">
+   <figure class="media-left">
+     <p class="image is-64x64">
+       <img src="https://buimd.io/images/placeholders/64x64.png">
+     </p>
+   </figure>
+   <div class="media-content">
+       <%= render 'tweeets/form' %>
+   </div>
+ </article>
+<% end %>
+```
+![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpv12zz2mlj31kw0m5q6r.jpg)
+
+```
+app/views/tweeets/index.html.erb
+---
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <%= render 'trends' %>
+      <%= render 'feed' %>
+      <%= render 'who-to-follow' %>
+    </div>
+  </div>
+</section>
+---
+app/views/tweeets/_profile.html.erb
+---
+<div class="column is-one-quarter">
+	<nav class="panel">
+		<p class="panel-heading">Profile</p>
+		<div class="panel-block">
+			<article class="media">
+				<div class="media-left">
+					<figure class="image is-64x64">
+						<%= gravatar_image_tag(current_user.email, size: 64, alt: current_user.name) %>
+					</figure>
+				</div>
+				<div class="media-content">
+					<div class="content">
+						<p>
+							<strong><%= current_user.name %></strong><br />
+							<small><%= current_user.username %></small>
+						</p>
+					</div>
+				</div>
+			</article>
+		</div>
+		<div class="panel-block">
+			<div class="level is-mobile">
+				<div class="level-item has-centered-text">
+					<div>
+						<p class="heading">Tweeets</p>
+						<p class="title is-6"><%= current_user.tweeets.count %></p>
+					</div>
+				</div>
+				<div class="level-item has-centered-text">
+					<div>
+						<p class="heading">Following</p>
+						<p class="title is-6">123</p>
+					</div>
+				</div>
+					<div class="level-item has-centered-text">
+					<div>
+						<p class="heading">Followers</p>
+						<p class="title is-6">465K</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+</div>
+---
+```
+![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpv19fnt67j31kw0pb0y3.jpg)
+![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpv19b2e91j31kw0pd0y3.jpg)
+![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpv1c0skjkj31kw0ozgpx.jpg)

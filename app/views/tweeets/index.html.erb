@@ -2,13 +2,28 @@
 <section class="section">
   <div class="container">
     <div class="columns">
+    	<% if user_signed_in? %>
+    		<%= render 'profile' %>
+    	<% else %>
+       <%= render 'trends' %>
+      <% end %>
+
+       <%= render 'feed' %>
+       <%= render 'who-to-follow' %>
+    </div>
+  </div>
+
+<!--</section>
+<section class="section">
+  <div class="container">
+    <div class="columns">
       <%= render 'trends' %>
       <%= render 'feed' %>
       <%= render 'who-to-follow' %>
     </div>
   </div>
 </section>
-
+-->
 <!--    <% @tweeets.each do |tweeet| %>
       <tr>
         <td><%= tweeet.tweeet：text %></td>

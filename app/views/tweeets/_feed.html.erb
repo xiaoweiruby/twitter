@@ -1,6 +1,6 @@
 
 <div class="column is-half">
-
+ <% if user_signed_in? %>
 	<article class="media box">
 		<figure class="media-left">
 			<p class="image is-64x64">
@@ -11,7 +11,7 @@
         <%= render 'tweeets/form' %>
 		</div>
 	</article>
-
+ <% end %>
 
 
 <% @tweeets.each do | tweeet | %>
@@ -30,7 +30,7 @@
 
 
   			</div>
-
+ <% if user_signed_in? && current_user.id == tweeet.user_id %>
   			<nav class="level">
   				<div class="level-left is-mobile">
   					<%= link_to tweeet, class: "level-item" do %>
@@ -44,7 +44,7 @@
   			    <% end %>
   				</div>
   			</nav>
-
+        <% end %>
   		</div>
   	</article>
   </div>
