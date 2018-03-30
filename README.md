@@ -1,5 +1,18 @@
 # Let's Build: A Twitter Clone With Ruby on Rails
 
+![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpv231vlabj31kw0n6tg0.jpg)
+![image](https://ws1.sinaimg.cn/large/006tKfTcgy1fpv22x38bij31kw0ifjti.jpg)
+![image](https://ws2.sinaimg.cn/large/006tKfTcgy1fpv22ss7gdj31kw0id40m.jpg)
+
+## 本案例主要完成了
+
+- gem 的使用
+- crud 功能 + layouts 导航
+- devise 的使用
+- scss 的使用
+
+属于一个基本的案例
+
 ```
 cd workspace
 rails new twitter
@@ -769,3 +782,76 @@ app/views/tweeets/_profile.html.erb
 ![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpv19fnt67j31kw0pb0y3.jpg)
 ![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpv19b2e91j31kw0pd0y3.jpg)
 ![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpv1c0skjkj31kw0ozgpx.jpg)
+```
+git status
+git add .
+git commit -m "add user show"
+git push origin username
+```
+![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpv1e6jqxrj31600okq8k.jpg)
+
+```
+git checkout -b gravatar_image_tag
+app/views/tweeets/_feed.html.erb
+app/views/tweeets/_who-to-follow.html.erb
+<img src="https://bulma.io/images/placeholders/64x64.png">
+---
+<%= gravatar_image_tag(current_user.email, size: 64, alt: current_user.name) %>
+---
+app/views/tweeets/edit.html.erb
+<h1>Editing Tweeet</h1>
+
+<%= render 'form', tweeet: @tweeet %>
+
+<%= link_to 'Show', @tweeet %> |
+<%= link_to 'Back', tweeets_path %>
+---
+---
+app/views/tweeets/new.html.erb
+<h1>New Tweeet</h1>
+
+<%= render 'form', tweeet: @tweeet %>
+
+<%= link_to 'Back', tweeets_path %>
+---
+<div class="section">
+	<div class="container">
+		<div class="columns is-centered">
+			<div class="column is-half">
+				<h1 class="title">Create a new Tweeet</h1>
+					<%= render 'form', tweeet: @tweeet %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<nav class="navbar is-fixed-bottom">
+	<div class="navbar-menu">
+		<div class="navbar-item">
+			<div class="field is-grouped">
+				<p class="control">
+					<%= link_to 'Cancel', tweeets_path, class: "button is-dark" %>
+				</p>
+		</div>
+	</div>
+</nav>
+
+---
+app/views/tweeets/show.html.erb
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Tweeet：text:</strong>
+  <%= @tweeet.tweeet：text %>
+</p>
+
+<%= link_to 'Edit', edit_tweeet_path(@tweeet) %> |
+<%= link_to 'Back', tweeets_path %>
+
+```
+![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpv231vlabj31kw0n6tg0.jpg)
+![image](https://ws1.sinaimg.cn/large/006tKfTcgy1fpv22x38bij31kw0ifjti.jpg)
+![image](https://ws2.sinaimg.cn/large/006tKfTcgy1fpv22ss7gdj31kw0id40m.jpg)
+
+```
+git status
