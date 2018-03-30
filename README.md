@@ -855,3 +855,8 @@ app/views/tweeets/show.html.erb
 
 ```
 git status
+git add .
+git commit -m "add gravatar_image_tag"
+git push origin gravatar_image_tag
+```
+![image](https://ws2.sinaimg.cn/large/006tKfTcly1fpv28r8g5jj31e00h0djz.jpg)
