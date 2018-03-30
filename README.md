@@ -409,3 +409,255 @@ rails db:migrate
 git status
 git add .
 git commit -m "add layout and markup devise user model"
+rake routes
+http://localhost:3000/users/sign_up
+```
+![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpuvvno5mtj31is0oeteg.jpg)
+![image](https://ws2.sinaimg.cn/large/006tKfTcgy1fpuvvigoshj316g0ledlk.jpg)
+![image](https://ws4.sinaimg.cn/large/006tKfTcgy1fpuvxem6epj31kw0eymzi.jpg)
+
+```
+app/controllers/tweeets_controller.rb
+---
+before_action :set_tweeet, only: [:show, :edit, :update, :destroy]
+before_action :authenticate_user!, except: [:index, :show]
+
+app/controllers/registrations_controller.rb
+---
+
+class RegistrationsController < Devise::RegistrationsController
+
+	private
+
+	def sign_up_params
+		params.require(:user).permit(:name, :username, :email, :password, :password_confirmation)
+	end
+
+	def acount_update_params
+		params.require(:user).permit(:name, :username, :email, :password, :password_confirmation, :current_password)
+	end
+
+end
+---
+```
+```
+rails g migration AddFieldsToUsers
+db/migrate/20180330074858_add_fields_to_users.rb
+---
+class AddFieldsToUsers < ActiveRecord::Migration[5.1]
+  def change
+   	add_column :users, :name, :string
+   	add_column :users, :username, :string
+   	add_index :users, :username, unique: true
+   end
+ end
+---
+rake db:migrate
+```
+```
+app/views/devise/registrations/new.html.erb
+---
+<h2>Sign up</h2>
+
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :email, required: true, autofocus: true %>
+    <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
+    <%= f.input :password_confirmation, required: true %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "Sign up" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+
+---
+<div class="section">
+	<div class="container">
+	<div class="columns is-centered">
+
+		<div class="column is-4">
+
+		<h2 class="title is-2">Sign Up</h2>
+
+		<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+	  <%= f.error_notification %>
+
+	  <div class="field">
+	  	<div class="control">
+	    <%= f.input :name, required: true, autofocus: true, input_html: { class:"input" }, wrapper: false, label_html: { class:"label" } %>
+	  	</div>
+		</div>
+
+		<div class="field">
+	  	<div class="control">
+	    <%= f.input :username, required: true, input_html: { class:"input" }, wrapper: false, label_html: { class:"label" } %>
+	  	</div>
+		</div>
+
+		<div class="field">
+	  	<div class="control">
+	    <%= f.input :email, required: true, input_html: { class:"input" }, wrapper: false, label_html: { class:"label" } %>
+	  	</div>
+		</div>
+
+
+		<div class="field">
+			<div class="control">
+				<%= f.input :password, required: true, input_html: { class:"input" }, wrapper: false, label_html: { class:"label" }, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
+			</div>
+		</div>
+
+		<div class="field">
+			<div class="control">
+				<%= f.input :password_confirmation, required: true, input_html: { class: "input" }, wrapper: false, label_html: { class: "label" } %>		
+			</div>
+		</div>
+
+		<div class="field">
+			<div class="control">
+		 		<%= f.button :submit, "Sign up", class:"button is-info is-medium" %>
+		 	</div>
+		</div>
+
+		<% end %>
+			<br />
+			<%= render "devise/shared/links" %>
+		</div>
+		</div>
+	</div>
+</div>
+---
+```
+![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpuwl5oj6sj31kw0ud0wf.jpg)
+
+```
+app/models/tweeet.rb
+---
+class Tweeet < ApplicationRecord
+  belongs_to :user
+end
+---
+app/models/user.rb
+---
+class User < ApplicationRecord
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+  has_many :tweeets
+end
+---
+rails g migration AddUserIdToTweeets user_id:integer
+rake db:migrate
+```
+```
+rails c
+2.3.1 :001 > @user = User
+2.3.1 :002 > User.connection
+2.3.1 :003 > @user
+2.3.1 :004 > @tweeet = Tweeet
+2.3.1 :005 > exit
+```
+```
+app/controllers/tweeets_controller.rb
+---
+before_action :set_tweeet, only: [:show, :edit, :update, :destroy]
+before_action :authenticate_user!, except: [:index, :show]
+
+def new
+  @tweeet = current_user.tweeets.build
+end
+
+# GET /tweeets/1/edit
+def edit
+end
+
+# POST /tweeets
+# POST /tweeets.json
+def create
+  @tweeet = current_user.tweeets.build(tweeet_params)
+
+---
+app/views/layouts/application.html.erb
+---
+<p class="control">
+  <%= link_to 'New Tweeet', new_tweeet_path, class: "button is-info is-inverted" %>
+</p>
+
+<% if user_signed_in? %>
+    <p class="control">
+      <%= link_to current_user.name, edit_user_registration_path, class: "button is-info" %>
+    </p>
+    <p>
+      <%= link_to "Logout", destroy_user_session_path, method: :delete, class:"button is-info" %>
+    </p>
+  <% else %>
+  <p class="control">
+    <%= link_to 'Sign In', new_user_session_path, class: "button is-info" %>
+  </p>
+  <p class="control">
+    <%= link_to 'Sign Up', new_user_registration_path, class: "button is-info" %>
+  </p>
+ <% end %>
+ ---
+```
+ ![image](https://ws3.sinaimg.cn/large/006tKfTcgy1fpuz9wcdwij31kw0nhjv7.jpg)
+
+```
+---
+rails c
+2.3.1 :001 > @user = User
+2.3.1 :002 > User.connection
+2.3.1 :003 > @user.last
+---
+config/routes.rb
+---
+Rails.application.routes.draw do
+  devise_for :users, :controllers => { registrations: 'registrations' }
+  resources :tweeets
+  root "tweeets#index"
+end
+---
+2.3.1 :004 > @user.destroy
+2.3.1 :005 > @user.delete
+2.3.1 :006 > @user = @user.last
+2.3.1 :007 > @user
+2.3.1 :008 > @user.destroy
+2.3.1 :009 > @user = User
+2.3.1 :010 > @user.all
+2.3.1 :011 > exit
+```
+![image](https://ws1.sinaimg.cn/large/006tKfTcgy1fpuzpas3ckj31kw0mhak0.jpg)
+![image](https://ws4.sinaimg.cn/large/006tKfTcgy1fpuzp5kqhaj31kw0ron28.jpg)
+
+
+```
+rails c
+2.3.1 :001 > @user = User
+2.3.1 :002 > User.connection
+2.3.1 :003 > @user.all
+2.3.1 :004 > exit
+```
+![image](https://ws4.sinaimg.cn/large/006tKfTcgy1fpuzw4oc8wj314y0e8q83.jpg)
+```
+rails c
+2.3.1 :001 > @tweeet = Tweeet
+2.3.1 :002 > Tweeet.connection
+2.3.1 :003 > @tweeet.all
+2.3.1 :004 > @tweeet = Tweeet
+2.3.1 :005 > @tweeet.all
+2.3.1 :006 > @user = User
+2.3.1 :007 > @user.tweeets
+2.3.1 :008 > current_user.tweeets
+2.3.1 :009 > exit
+```
+![image](https://ws1.sinaimg.cn/large/006tKfTcgy1fpv0273qnpj314w0oc0zo.jpg)
+
+```
+git status
+git add .
+git commit -m "add devise & layouts"
+git push origin devise
