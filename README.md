@@ -141,7 +141,7 @@ app/assets/stylesheets/application.scss
 }
 ---
 ```
-![image](https://ws4.sinaimg.cn/large/006tNbRwgy1fpthyvmsykj30bk09gdgd.jpg)
+![image](https://ws3.sinaimg.cn/large/006tNbRwgy1fpti6ob5wxj31kw0c840j.jpg)
 ![image](https://ws1.sinaimg.cn/large/006tNbRwgy1fpthyq513oj31kw09e75o.jpg)
 ![image](https://ws3.sinaimg.cn/large/006tNbRwgy1fpthyk516ij31kw09amyg.jpg)
 ```
@@ -150,3 +150,229 @@ git add .
 git commit -m "add nav"
 git push origin nav
 ```
+![image](https://ws2.sinaimg.cn/large/006tNbRwgy1fpti1f3hxmj31380k0q7h.jpg)
+
+```
+git checkout -b views
+app/views/layouts/application.html.erb
+---
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Twittter</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  	<% if flash[:notice] %>
+  		<div class="notification is-primary global-notification">
+  			<p class="notice"><%= notice %></p>
+  		</div>
+  	<% end %>
+  	<% if flash[:alert] %>
+  		<div class="notification is-danger global-notification">
+  			<p class="alert"><%= alert %></p>
+  		</div>
+  	<% end %>
+  	<nav class="navbar is-info">
+  		<div class="navbar-brand">
+  		<%= link_to root_path, class: "navbar-item" do %>
+  			<h1 class="title is-5">Twittter</h1>
+  		<% end %>
+			<div class="navbar-burger burger" data-target="navbarExample">
+					<span></span>
+					<span></span>
+					<span></span>
+  		</div>
+  	 </div>
+
+			<div id="navbarExample" class="navbar-menu">
+				<div class="navbar-end">
+          <div class="navbar-item">
+					<div class="field is-grouped">
+						<p class="control">
+							<%= link_to 'New Tweeet', new_tweeet_path, class: "button is-info is-inverted" %>
+						</p>
+
+            </div>
+					</div>
+				</div>
+			</div>
+  	</nav>
+
+    <%= yield %>
+  </body>
+</html>
+---
+```
+```
+app/views/tweeets/index.html.erb
+---
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <%= render 'trends' %>
+      <%= render 'feed' %>
+      <%= render 'who-to-follow' %>
+    </div>
+  </div>
+</section>
+--
+app/views/tweeets/_feed.html.erb
+---
+
+<div class="column is-half">
+
+	<article class="media box">
+		<figure class="media-left">
+			<p class="image is-64x64">
+				<img src="https://buimd.io/images/placeholders/64x64.png">
+			</p>
+		</figure>
+		<div class="media-content">
+        <%= render 'tweeets/form' %>
+		</div>
+	</article>
+
+
+
+<% @tweeets.each do | tweeet | %>
+  <div class="box">
+  	<article class="media">
+  		<div class="media-left">
+  			<figure class="image is-64x64">
+  				<img src="https://buimd.io/images/placeholders/64x64.png">
+  			</figure>
+  		</div>
+  		<div class="media-content">
+  			<div class="content">
+  				<strong>xiaowei</strong><br />
+  				<small>xiaowei</small><br/>
+
+  			</div>
+
+  			<nav class="level">
+  				<div class="level-left is-mobile">
+  					<%= link_to tweeet, class: "level-item" do %>
+  					  <span class="icon"><i class="fa fa-link" aria-hidden="true"></i></span>
+  					<% end %>
+  					<%= link_to edit_tweeet_path(tweeet), class: "level-item" do %>
+  					  <span class="icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+  					<% end %>
+  					<%= link_to tweeet, method: :delete, data: { confirm: "Are you sure you want to delete this tweeet?" } do %>
+  							<span class="icon"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+  			    <% end %>
+  				</div>
+  			</nav>
+
+  		</div>
+  	</article>
+  </div>
+<% end %>
+</div>
+---
+app/views/tweeets/_who-to-follow.html.erb
+---
+<div class="column">
+	<nav class="panel">
+		<p class="panel-heading">Who to Follow</p>
+
+	<div class="panel-block">
+		<article class="media">
+			<div class="media-left">
+				<figure class="image is-32x32">
+					<img src="https://bulma.io/images/placeholders/64x64.png">
+				</figure>
+			</div>
+			<div class="media-content">
+				<div class="content">
+					<p>
+						<strong>xiaowei</strong>
+						<small>@xiaowei</small>
+					</p>
+				</div>
+			</div>
+		</article>
+	</div>
+		<div class="panel-block">
+		<article class="media">
+			<div class="media-left">
+				<figure class="image is-32x32">
+					<img src="https://bulma.io/images/placeholders/64x64.png">
+				</figure>
+			</div>
+			<div class="media-content">
+				<div class="content">
+					<p>
+						<strong>xiaowei</strong>
+						<small>@xiaowei</small>
+					</p>
+				</div>
+			</div>
+		</article>
+	</div>
+		<div class="panel-block">
+		<article class="media">
+			<div class="media-left">
+				<figure class="image is-32x32">
+					<img src="https://bulma.io/images/placeholders/64x64.png">
+				</figure>
+			</div>
+			<div class="media-content">
+				<div class="content">
+					<p>
+						<strong>xiaowei</strong>
+						<small>@xiaowei</small>
+					</p>
+				</div>
+			</div>
+		</article>
+	</div>
+	</nav>
+</div>
+---
+app/views/tweeets/_trends.html.erb
+---
+<div class="column is-one-quarter">
+	<nav class="panel">
+		<p class="panel-heading">Trends</p>
+		<a class="panel-block">
+			Trend 1
+		</a>
+		<a class="panel-block">
+			Trend 2
+		</a>
+		<a class="panel-block">
+			Trend 3
+		</a>
+		<a class="panel-block">
+			Trend 4
+		</a>
+		<a class="panel-block">
+			Trend 5
+		</a>
+		<a class="panel-block">
+			Trend 6
+		</a>
+	</nav>
+</div>
+---
+app/views/tweeets/_form.html.erb
+---
+
+<%= simple_form_for(@tweeet) do |f| %>
+<%= f.error_notification %>
+<div class="field">
+  <div class="control">
+    <%= f.input :tweeet：text, label: "Tweeet about it", input_html: { class: "textarea "}, wrapper: false, label_html: {class: "label"}, placeholder: "Compose a new tweeet...", autofocus: true %>
+  </div>
+</div>
+<%= f.button :submit, class: "button is-info" %>
+<% end %>
+```
+# 最后效果
+![image](https://ws1.sinaimg.cn/large/006tKfTcgy1fpunnpd3qdj31kw0s50xk.jpg)
